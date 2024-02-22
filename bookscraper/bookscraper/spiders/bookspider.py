@@ -10,7 +10,7 @@ class BookspiderSpider(scrapy.Spider):
 
     custom_settings = {
         'FEEDS': {
-            'file://C:/Users/Admin/Documents/Book Scraper/bookscraper/raw_data/raw_data.json': {
+            'bookscraper/bookscraper/raw_data/raw_data.json': {
                 'format': 'json',
                 'overwrite': True,
             },

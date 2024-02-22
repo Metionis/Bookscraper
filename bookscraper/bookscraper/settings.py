@@ -87,7 +87,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "bookscraper.pipelines.BookscraperPipeline": 300,
-   "bookscraper.pipelines.SaveToMySQLPipeline": 400,
+   # "bookscraper.pipelines.SaveToMySQLPipeline": 400,
    # 'booksraper.pipelines.SaveToJsonPipeline': 300,
 }
 #FEEDS SETTING FOR THE FEEDS IN bookspider
