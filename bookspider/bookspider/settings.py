@@ -1,4 +1,4 @@
-# Scrapy settings for bookspider project
+# Scrapy settings for bookscraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,17 +7,36 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "bookspider"
+BOT_NAME = "bookscraper"
 
-SPIDER_MODULES = ["bookspider.spiders"]
-NEWSPIDER_MODULE = "bookspider.spiders"
+SPIDER_MODULES = ["bookscraper.spiders"]
+NEWSPIDER_MODULE = "bookscraper.spiders"
 
+##Specified the data format
+FEEDS = {
+    'booksdata.json': {'format': 'json'}
+}
 
+SCRAPEOPS_API_KEY = '9243adb3-c085-466e-bd04-e8d89da5974f'
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = "https://headers.scrapeops.io/v1/user-agents"
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 50
+SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT = "https://headers.scrapeops.io/v1/browser-headers"
+SCRAPEOPS_FAKE_BROWSER_HEADER_ACTIVE = True
+
+# ROTATING_PROXY_LIST = [
+#     'proxy1.com:8000',
+#     'proxy2.com:8031',
+#     'proxy3.com:8032',
+# ]
+# ROTATING_PROXY_LIST_PATH = r'C:\Users\Admin\Documents\Book Scraper\bookscraper\PROXY_LIST\Free_Proxy_List.csv'
+
+SCRAPEOPS_PROXY_ENABLED = True
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "bookspider (+http://www.yourdomain.com)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False #Can set to True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -45,14 +64,18 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "bookspider.middlewares.BookspiderSpiderMiddleware": 543,
+#    "bookscraper.middlewares.BookscraperSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "bookspider.middlewares.BookspiderDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   "bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
+   # "bookscraper.middlewares.ScrapeOpsFakeUserAgentMiddleWare": 400,
+   'bookscraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware': 400,
+   # 'bookscraper.middlewares.MyProxyMiddleware': 350, 
+   # 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 400, 
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -62,10 +85,17 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "bookspider.pipelines.BookspiderPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "bookscraper.pipelines.BookscraperPipeline": 300,
+   "bookscraper.pipelines.SaveToMySQLPipeline": 400,
+   # 'booksraper.pipelines.SaveToJsonPipeline': 300,
+}
+#FEEDS SETTING FOR THE FEEDS IN bookspider
+# FEED_FORMAT = 'json'
+# FEED_URI = 'file://C:/Users/Admin/Documents/Book Scraper/bookscraper/raw_data/raw_data.json'
 
+
+# OUTPUT_DIRECTORY = 'bookscraper/raw_data'
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
@@ -91,3 +121,8 @@ ROBOTSTXT_OBEY = True
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+PROXY_USER = 'username'
+PROXY_PASSWORD = 'password'
+PROXY_ENDPOINT = 'proxy.proxyprovider.com'
+PROXY_PORT = '8000'
